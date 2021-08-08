@@ -1,3 +1,4 @@
+from discord import embeds
 import requests, json, discord
 from discord.ext import commands
 import config
@@ -61,7 +62,7 @@ async def play(ctx, game):
 async def help(ctx):
     emb = discord.Embed(title="Help command", description="\u200b")
     emb.add_field(name="command `play`", value=f"Join a voice channel and type out the command `{config.prefix}play <game>` and click on the link which the bot gives.")
-
+    await ctx.send(embed=emb)
 @play.error
 async def play(ctx, error):
     if isinstance(error, commands.CommandInvokeError):
