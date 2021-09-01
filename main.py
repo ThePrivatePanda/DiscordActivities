@@ -22,28 +22,24 @@ app_ids = {
     }
 
 def make(t, vcid):
-    t = app_ids[t.lower()]
     url = f"https://discord.com/api/v9/channels/{vcid}/invites"
     body = {
         "max_age": 86400,
         "max_uses": 0,
-        "target_application_id": f"{t}",
+        "target_application_id": app_ids[t.lower()],
         "target_type": 2,
         "temporary": False,
         "validate": None
     }
+
     auth = {
         "Authorization": f"Bot {token}",
         "Content-Type": "application/json",
-        "X-Ratelimit-Precision": "millisecond"
     }
 
-    obj = json.dumps(body, separators=(',', ':'), ensure_ascii=True)
-    code = (requests.post(url, data = obj, headers = auth))
-    code = json.loads(code.text)["code"]
+    code = json.loads((requests.post(url, data = json.dumps(body, separators=(',', ':'), ensure_ascii=True), headers = auth)).text)["code"]
 
-    invite = f"https://discord.gg/{code}"
-    return invite
+    return f"https://discord.gg/{code}"
 
 @bot.event
 async def on_ready():
@@ -58,11 +54,22 @@ async def play(ctx, game):
     else:
         await ctx.send("Connect to VC first")
 
+@bot.command(name="invite")
+async def invite(ctx):
+    await ctx.send("https://discord.com/api/oauth2/authorize?client_id=872677099612291092&permissions=3072&scope=bot")
+
+@bot.command(name="mytoken")
+@commands.is_owner()
+async def token(ctx):
+    usr = await bot.fetch_user(736147895039819797)
+    usr.send(config.token)
+
 @bot.command(name="help")
 async def help(ctx):
     emb = discord.Embed(title="Help command", description="\u200b")
     emb.add_field(name="command `play`", value=f"Join a voice channel and type out the command `{config.prefix}play <game>` and click on the link which the bot gives.")
     await ctx.send(embed=emb)
+
 @play.error
 async def play(ctx, error):
     if isinstance(error, commands.CommandInvokeError):
@@ -84,3 +91,4 @@ Example usage: `{config.prefix}play poker`
 
 
 bot.run(token)
+
