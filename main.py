@@ -38,7 +38,7 @@ def make(t, vcid):
     }
 
     obj = json.dumps(body, separators=(',', ':'), ensure_ascii=True)
-    code = (requests.post(url, data = obj, headers = auth))
+    code = (requests.post(url, json=body, headers=auth))
     code = json.loads(code.text)["code"]
 
     invite = f"https://discord.gg/{code}"
