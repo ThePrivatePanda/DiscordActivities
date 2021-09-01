@@ -23,19 +23,18 @@ app_ids = {
 
 def make(t, vcid):
     t = app_ids[t.lower()]
-    url = f"https://discord.com/api/v9/channels/{vcid}/invites"
+    url = f"https://discord.com/api/v8/channels/{vcid}/invites"
     body = {
         "max_age": 86400,
         "max_uses": 0,
-        "target_application_id": f"{t}",
+        "target_application_id": t,
         "target_type": 2,
         "temporary": False,
         "validate": None
     }
     auth = {
         "Authorization": f"Bot {token}",
-        "Content-Type": "application/json",
-        "X-Ratelimit-Precision": "millisecond"
+        "Content-Type": "application/json"
     }
 
     obj = json.dumps(body, separators=(',', ':'), ensure_ascii=True)
