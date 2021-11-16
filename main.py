@@ -20,7 +20,9 @@ app_ids = {
     5 : 852509694341283871,
     6 : 880218394199220334,
     7 : 832013003968348200,
-    8 : 879863976006127627
+    8 : 879863976006127627,
+    9 : 773336526917861400,
+    10 : 814288819477020702
 }
 def make(t, vcid):
     url = f"https://discord.com/api/v9/channels/{vcid}/invites"
@@ -68,6 +70,8 @@ async def help(ctx):
 6) Youtube Together
 7) Checkers in the park
 8) Wordsnacks
+9) Betrayal.io
+10) Fishington.io
 
 Join a voice channel and type out the command `{config.prefix}play`
 Reply with the number corresponding with the game you wish to play.
@@ -90,7 +94,9 @@ async def play(ctx, game=None):
     6) Youtube Together
     7) Checkers in the park
     8) Wordsnacks
-
+    9) Betrayal.io
+    10) Fishington.io
+    
     Reply with the number corresponding to the game you wish to play. JUST THE NUMBER FOR GODS SAKE.
     ''')
         def check(m):
