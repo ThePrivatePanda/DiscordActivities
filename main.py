@@ -9,18 +9,19 @@ else:
     print("Prefix contains a character which i cant parse!")
     raise SystemExit
 
-bot = commands.Bot(command_prefix = config.prefix) # I just like this one better
+bot = commands.Bot(command_prefix = config.prefix, status=discord.Status.dnd, activity=discord.Game(name=f"{config.prefix}help")) # I just like this one better
 bot.help_command=None
-token = config.token
 
 app_ids = {
-    "chess": 832012774040141894,
-    "fish": 814288819477020702,
-    "poker": 755827207812677713,
-    "yt": 755600276941176913,
-    "betrayal": 773336526917861400
-    }
-
+    1 : 755827207812677713,
+    2 : 832012774040141894,
+    3 : 878067389634314250,
+    4 : 879863686565621790,
+    5 : 852509694341283871,
+    6 : 880218394199220334,
+    7 : 832013003968348200,
+    8 : 879863976006127627
+}
 def make(t, vcid):
     url = f"https://discord.com/api/v9/channels/{vcid}/invites"
     body = {
@@ -38,21 +39,11 @@ def make(t, vcid):
     }
 
     code = json.loads((requests.post(url, data = json.dumps(body, separators=(',', ':'), ensure_ascii=True), headers = auth)).text)["code"]
-
     return f"https://discord.gg/{code}"
 
 @bot.event
 async def on_ready():
     print("Online")
-    await bot.change_presence(status=discord.Status.dnd, activity=discord.Game(name=f"{config.prefix}help"))
-
-@bot.command(name="play")
-async def play(ctx, game):
-    voiceChannel = ctx.author.voice.channel
-    if voiceChannel != None:
-        await ctx.send(make(game, voiceChannel.id))
-    else:
-        await ctx.send("Connect to VC first")
 
 @bot.command(name="invite")
 async def invite(ctx):
@@ -67,28 +58,56 @@ async def token(ctx):
 @bot.command(name="help")
 async def help(ctx):
     emb = discord.Embed(title="Help command", description="\u200b")
-    emb.add_field(name="command `play`", value=f"Join a voice channel and type out the command `{config.prefix}play <game>` and click on the link which the bot gives.")
+    emb.add_field(name="Command `play`", value=f"""
+
+1) Poker
+2) Chess in the park
+3) Doodle Crew
+4) Letter Tile
+5) Spellcast
+6) Youtube Together
+7) Checkers in the park
+8) Wordsnacks
+
+Join a voice channel and type out the command `{config.prefix}play`
+Reply with the number corresponding with the game you wish to play.
+Click on the link the bot responds with.
+
+You can also run {config.prefix}play [No. corresponding to game which you can find above.]
+    """)
     await ctx.send(embed=emb)
 
-@play.error
-async def play(ctx, error):
-    if isinstance(error, commands.CommandInvokeError):
-        error = error.original
+@bot.command(name="play")
+async def play(ctx, game=None):
+    if game is None:
+        await ctx.reply('''
+    Which game do you want to play?
+    1) Poker
+    2) Chess in the park
+    3) Doodle Crew
+    4) Letter Tile
+    5) Spellcast
+    6) Youtube Together
+    7) Checkers in the park
+    8) Wordsnacks
 
-    if isinstance(error, commands.errors.MissingRequiredArgument):
-        await ctx.send(f"""
-Only 5 games i have now from which you must say:
-1) Chess In The Park `chess`
-2) Fishington.io `fish`
-3) Poker Night `poker`
-4) Youtube Together `yt`
-5) Betrayal.io `betrayal`
-
-Example usage: `{config.prefix}play poker`
-""")
+    Reply with the number corresponding to the game you wish to play. JUST THE NUMBER FOR GODS SAKE.
+    ''')
+        def check(m):
+            return m.author.id == ctx.author.id and m.channel.id == ctx.channel.id
+        msg = await bot.wait_for("message", check=check)
     else:
-        await ctx.send("Some error occured.")
+        msg = ctx.message.content
 
+    try:
+        if int(msg) < 9: game = int(msg)
+    except:
+        return await ctx.send('imagine knowing your numbers.')
 
-bot.run(token)
+    voiceChannel = ctx.author.voice.channel
+    if voiceChannel is not None:
+        await ctx.send(f"Click on this link: {make(game, voiceChannel.id)")
+    else:
+        await ctx.send("Connect to a voice channel first")
 
+bot.run(config.token)
