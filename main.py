@@ -1,16 +1,14 @@
-from discord import embeds
-import requests, json, discord
-from discord.ext import commands
-import config
-from string import printable
-if any(item in list(config.prefix) for item in printable):
-    pass
-else:
-    print("Prefix contains a character which i cant parse!")
-    raise SystemExit
+#Config
+prefix = "!!"
+token = "Nzc5NjM3NDQwMjkzODk2MTkz.X7jb8g.NEDBhv8SvKTt0ouiuPN76mpvX1c"
 
-bot = commands.Bot(command_prefix = config.prefix, status=discord.Status.dnd, activity=discord.Game(name=f"{config.prefix}help")) # I just like this one better
-bot.help_command=None
+from nextcord import embeds
+import nextcord
+import aiohttp
+import json
+from nextcord.ext import commands
+
+bot = commands.Bot(command_prefix=prefix, status=nextcord.Status.dnd, activity=nextcord.Game(name=f"{prefix}help"), help_command=None)
 
 app_ids = {
     1 : 755827207812677713,
@@ -24,6 +22,7 @@ app_ids = {
     9 : 773336526917861400,
     10 : 814288819477020702
 }
+
 def make(t, vcid):
     url = f"https://discord.com/api/v9/channels/{vcid}/invites"
     body = {
@@ -49,36 +48,36 @@ async def on_ready():
 
 @bot.command(name="invite")
 async def invite(ctx):
-    await ctx.send("https://discord.com/api/oauth2/authorize?client_id=872677099612291092&permissions=3072&scope=bot")
-
-@bot.command(name="mytoken")
-@commands.is_owner()
-async def token(ctx):
-    usr = await bot.fetch_user(736147895039819797)
-    usr.send(config.token)
+    await ctx.send("https://discord.com/api/oauth2/authorize?client_id={bot.user.id}&permissions=19457&scope=bot")
 
 @bot.command(name="help")
 async def help(ctx):
-    emb = discord.Embed(title="Help command", description="\u200b")
-    emb.add_field(name="Command `play`", value=f"""
+    emb = nextcord.Embed(title="Help command")
+    print("Recieved command and initiated embed")
+    emb.add_field(name="Command `play`:", value=f"""
 
-1) Poker
-2) Chess in the park
-3) Doodle Crew
-4) Letter Tile
-5) Spellcast
-6) Youtube Together
-7) Checkers in the park
-8) Wordsnacks
-9) Betrayal.io
-10) Fishington.io
+1) Poker- Aliases:`poker`, `pokernight`
+  -  Play Poker! 
 
-Join a voice channel and type out the command `{config.prefix}play`
+2) Chess in the park- Aliases:`chess`, `Chess in the Park`
+- Play Chess!
+
+3) Doodle Crew- Aliases: `skribble`, `doodle`, `doodlecrew`, `dc`
+    - Basically skribbl.io
+
+4) `Letter Tile`: A game like scrabble! `scrabble` `Letter Tile`, `lt`
+5) `Spellcast`:
+6) Youtube Together (Everyone can access, i.e. add/remove video, play/pause etc)
+7) Watch Together (Only host can access, host can share or hand over the \"remote\")
+8) `Checkers in the park`: Play Checkers! `checkers`, `checkersinthepark`
+9) `Wordsnacks`: A unique discord VC Game, try it out! `word snacks` `ws`
+10) `Betrayal.io`: The VC version of the web version `btrio` `btr` `betrayal`
+11) `Fishington.io`: The VC version of the web version `fish` `fishington` `ftio`
+
+Join a voice channel and type out the command `{prefix}play`
 Reply with the number corresponding with the game you wish to play.
 Click on the link the bot responds with.
-
-You can also run {config.prefix}play [No. corresponding to game which you can find above.]
-    """)
+""")
     await ctx.send(embed=emb)
 
 @bot.command(name="play")
@@ -112,8 +111,8 @@ async def play(ctx, game=None):
 
     voiceChannel = ctx.author.voice.channel
     if voiceChannel is not None:
-        await ctx.send(f"Click on this link: {make(game, voiceChannel.id)")
+        await ctx.send(f"Click on this link: {make(game, voiceChannel.id)}")
     else:
         await ctx.send("Connect to a voice channel first")
 
-bot.run(config.token)
+bot.run(token)
