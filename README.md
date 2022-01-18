@@ -1,6 +1,6 @@
 ## <h1 align="center">Discord activities in your voice channel!</h1>
 
-#### **Why:**
+## **Why:**
 This bot enables you to play the 12 discord voice channel games, in your own private server!
 
 ### **Features:**
@@ -20,3 +20,10 @@ This bot enables you to play the 12 discord voice channel games, in your own pri
 
 - Rename config.py.example to config.py and fill in the values accordingly.
 - Time to go live! `python3 main.py`
+
+#### **Me:**
+Hey! glad you scrolled this far, I'm koala usually. Nothing much here, if you face any issues, feel free to DM me on discord (koala#9712)
+If you liked this or helped you out even in the slightest, Buy me a coffee and make my day!
+- BTC: 36UJCW2ufWvcjSjGqovKMZJGZRuaMmPwGa
+- LTC: MEjJniVjFEJZwQo3S8Buu69iBCjWndQXrF
+- USDT:0x9b5d6cf360900a5c418ceb10eefa75b2a13f232d

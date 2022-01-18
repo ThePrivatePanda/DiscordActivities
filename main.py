@@ -75,7 +75,7 @@ async def help(interaction: nextcord.Interaction):
 11) `Betrayal.io:`
 -  The VC version of the web version.
 
-11) `Fishington.io:`
+12) `Fishington.io:`
 - The VC version of the web version.
 
 """,
