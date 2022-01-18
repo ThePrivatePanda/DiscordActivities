@@ -1,6 +1,5 @@
 import nextcord
 from nextcord.utils import utcnow
-from nextcord.ext import commands
 from nextcord import Status
 import config
 
@@ -12,34 +11,30 @@ status_dict = {
 }
 
 
-bot = commands.Bot(
-    command_prefix=config.prefix,
-    intents=nextcord.Intents.all(),
+client = nextcord.Client(
     status=status_dict.get(config.status, Status.dnd),
     activity=nextcord.Game(name=config.activity),
     help_command=None,
 )
 
 
-@bot.event
+@client.event
 async def on_ready():
     print("Online")
 
 
-@bot.slash_command(
+@client.slash_command(
     name="invite",
-    guild_ids=[745558385658953848, 881118111967883295],
     description="Get an invite link to invite me to a server.",
 )
 async def invite(interaction):
     await interaction.response.send_message(
-        f"https://discord.com/api/oauth2/authorize?client_id={bot.user.id}&permissions=2251673024&scope=bot%20applications.commands"
+        f"https://discord.com/api/oauth2/authorize?client_id={client.user.id}&permissions=2251673024&scope=bot%20applications.commands"
     )
 
 
-@bot.slash_command(
-    name="help",
-    guild_ids=[745558385658953848, 881118111967883295],
+@client.slash_command(
+    name="helpme",
     description="Recieve some help about me",
 )
 async def help(interaction: nextcord.Interaction):
@@ -95,7 +90,7 @@ async def help(interaction: nextcord.Interaction):
         value="Just run `/invite` to get a link to invite me to a server",
     )
     emb.set_footer(icon_url=interaction.user.display_avatar.url)
-    emb.set_thumbnail(url=bot.user.avatar.url)
+    emb.set_thumbnail(url=client.user.avatar.url)
     emb.timestamp = utcnow()
     await interaction.response.send_message(embed=emb, ephemeral=True)
 
@@ -104,16 +99,15 @@ async def make(user, game):
     invite = await user.voice.channel.create_invite(
         reason="Play game",
         unique=False,
-        target_type=2,
+        target_type=nextcord.InviteTarget.embedded_application,
         target_application_id=game,
     )
     return invite.url
 
 
-@bot.slash_command(
-    name="play",
+@client.slash_command(
+    name="playgame",
     description="Play a game!",
-    guild_ids=[745558385658953848, 881118111967883295],
 )
 async def play_(
     interaction: nextcord.Interaction,
@@ -145,4 +139,4 @@ async def play_(
     )
 
 
-bot.run(config.token)
+client.run(config.token)
