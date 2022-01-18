@@ -31,19 +31,15 @@ class Dropdown(nextcord.ui.Select):
 
     async def callback(self, interaction: nextcord.Interaction):
         async with interaction.channel.typing():
-            # await interaction.response.send_message(f'discord.gg/{await make(interaction.user)}')
-            pass
+            await interaction.response.send_message(f'discord.gg/{await make(interaction.user)}', ephemeral=False) # ultra broken stuff
 
 class DropdownView(nextcord.ui.View):
     def __init__(self):
-        super().__init__()
-
-        # Adds the dropdown to our view object.
         self.add_item(Dropdown())
 
 bot = commands.Bot(
     command_prefix=config.prefix,
-    status=status_dict.get(config.status, Status.online),
+    status=status_dict.get(config.status, Status.dnd),
     activity=nextcord.Game(name=config.activity),
     help_command=None)
 
@@ -58,26 +54,25 @@ app_ids = {
     8 : 879863976006127627,
     9 : 773336526917861400,
     10 : 814288819477020702
-}
+} # Missing a(2) game.
 
-async def make(t, vcid):
+async def make(gameid, vcid):
     url = f"https://discord.com/api/v9/channels/{vcid}/invites"
     body = {
         "max_age": 86400,
         "max_uses": 0,
-        "target_application_id": app_ids[t.lower()],
+        "target_application_id": app_ids[gameid],
         "target_type": 2,
         "temporary": False,
         "validate": None
     }
 
     auth = {
-        "Authorization": f"Bot {config.token}",
+        "Authorization": f"Bot {bot.http.token}",
         "Content-Type": "application/json",
     }
     resp = await bot.session.post(url, data = json.dumps(body, separators=(',', ':'), ensure_ascii=True), headers = auth)
     code = await resp.json()["code"]
-    # code = json.loads((requests.post(url, data = json.dumps(body, separators=(',', ':'), ensure_ascii=True), headers = auth)).text)["code"]
     return f"https://discord.gg/{code}"
 
 @bot.event
@@ -86,7 +81,7 @@ async def on_ready():
 
 @bot.command(name="invite")
 async def invite(ctx):
-    await ctx.send("https://discord.com/api/oauth2/authorize?client_id={bot.user.id}&permissions=19457&scope=bot")
+    await ctx.send("https://discord.com/api/oauth2/authorize?client_id={bot.user.id}&permissions=2251673024&scope=bot%20applications.commands")
 
 @bot.command(name="help")
 async def help(ctx):
@@ -141,8 +136,7 @@ async def help(ctx):
 
 
 async def startup():
-    async with aiohttp.ClientSession() as session:
-        bot.session = session
-        bot.run(config.token)
+    bot.session = aiohttp.ClientSession()
 
-asyncio.run(startup)
+bot.loop.create_task(startup())
+bot.run(config.token)
