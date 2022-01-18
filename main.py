@@ -20,21 +20,6 @@ bot = commands.Bot(
     help_command=None,
 )
 
-app_ids = {
-    "Poker": 755827207812677713,
-    "Chess in the park": 832012774040141894,
-    "Doodle Crew": 878067389634314250,
-    "Letter Tile": 879863686565621790,
-    "Spellcast": 852509694341283871,
-    "Awkword": 879863881349087252,
-    "Youtube Together": 755600276941176913,
-    "Watch Together": 880218394199220334,
-    "Checkers in the park": 832013003968348200,
-    "Wordsnacks": 879863976006127627,
-    "Betrayal.io": 773336526917861400,
-    "Fishington.io": 814288819477020702,
-}
-
 
 @bot.event
 async def on_ready():
