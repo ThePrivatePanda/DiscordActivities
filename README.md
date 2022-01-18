@@ -24,6 +24,6 @@ This bot enables you to play the 12 discord voice channel games, in your own pri
 #### **Me:**
 Hey! glad you scrolled this far, I'm koala usually. Nothing much here, if you face any issues, feel free to DM me on discord (koala#9712)
 If you liked this or helped you out even in the slightest, Buy me a coffee and make my day!
-- BTC: 36UJCW2ufWvcjSjGqovKMZJGZRuaMmPwGa
-- LTC: MEjJniVjFEJZwQo3S8Buu69iBCjWndQXrF
-- USDT:0x9b5d6cf360900a5c418ceb10eefa75b2a13f232d
+- BTC (BTC): 35oNx7C6YDNfgxNoXvhZwJydQ3Bpu3746c
+- LTC (LTC): MVC2viP8vZrKsgzds3juSnfySvCGi3yPMf
+- USDT (ERC20): 0x8c82b8887ef114f9b6e2841f014ed21fef705b69
