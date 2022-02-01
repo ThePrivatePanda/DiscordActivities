@@ -48,10 +48,10 @@ async def help(interaction: nextcord.Interaction):
 2) `Chess in the park:`
 - Play Chess!
 
-3) `Doodle Crew:`
+3) `Sketch Heads:` (Previously called `Doodle Crew`)
 - Basically skribbl.io
 
-4) `Letter Tile:`
+4) `Letter League:` (Previously called `Letter Tile`)
 - A game like scrabble! 
 
 5) `Spellcast:`
@@ -72,10 +72,13 @@ async def help(interaction: nextcord.Interaction):
 10) `Wordsnacks:`
 -  A unique discord VC Game, try it out!
 
-11) `Betrayal.io:`
+11) `Ocho:`
+-  A card game based on the classic crazy eight.
+
+12) `Betrayal.io:`
 -  The VC version of the web version.
 
-12) `Fishington.io:`
+13) `Fishington.io:`
 - The VC version of the web version.
 
 """,
@@ -116,14 +119,15 @@ async def play_(
         choices={
             "Poker": "755827207812677713",
             "Chess in the park": "832012774040141894",
-            "Doodle Crew": "878067389634314250",
-            "Letter Tile": "879863686565621790",
+            "Sketch Heads / Doodle Crew": "902271654783242291",
+            "Letter League / Letter Tile": "879863686565621790",
             "Spellcast": "852509694341283871",
             "Awkword": "879863881349087252",
             "Youtube Together": "755600276941176913",
             "Watch Together": "880218394199220334",
             "Checkers in the park": "832013003968348200",
             "Wordsnacks": "879863976006127627",
+            "Ocho": "832025144389533716",
             "Betryal.io": "773336526917861400",
             "Fishington.io": "814288819477020702",
         },
